@@ -1,0 +1,15 @@
+<html>
+<form method="POST" action="/api/users/add">
+	Name <input type="text" name="name" /><br>
+	Email <input type="text" name="email" /><br>
+	Password <input type="password" name="password" /><br>
+	Confirm <input type="password" name="confirm" /><br>
+	Image <input type="text" name="image" /><br>
+	Priviledge <input type="number" name="priviledge" /><br>
+	Phone <input type="text" name="phone" ><br>lld
+	<input type="submit" name="submit" value="Submit" />
+	
+	{{ form.hidden_tag() }}
+</form>
+</html>
+

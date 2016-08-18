@@ -8,6 +8,7 @@ print('Opened database successfully')
 
 conn.execute('CREATE TABLE IF NOT EXISTS users ( \
 	id INTEGER PRIMARY KEY AUTOINCREMENT, \
+	image TEXT, \
 	name VARCHAR(30) NOT NULL, \
 	email VARCHAR(40) UNIQUE NOT NULL, \
 	password TEXT NOT NULL, \
@@ -18,6 +19,7 @@ print('Create users table successfully')
 conn.execute('CREATE TABLE IF NOT EXISTS teachers ( \
 	id INTEGER PRIMARY KEY AUTOINCREMENT, \
 	name VARCHAR(30) NOT NULL, \
+	image TEXT, \
 	address_lon VARCHAR(20), \
 	address_lat VARCHAR(20), \
 	phone VARCHAR(20) NOT NULL, \
@@ -35,6 +37,7 @@ print("Create teachers table successfully")
 conn.execute('CREATE TABLE IF NOT EXISTS students ( \
 	id INTEGER PRIMARY KEY AUTOINCREMENT, \
 	name VARCHAR(30) NOT NULL, \
+	image TEXT, \
 	address_lon VARCHAR(20), \
 	address_lat VARCHAR(20), \
 	phone VARCHAR(20) NOT NULL, \

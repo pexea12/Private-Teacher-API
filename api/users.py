@@ -85,7 +85,7 @@ def post_users():
 		return jsonify({
 			"msg": "Successfully added to database",
 			"user": "/api/users?email=" + urllib.parse.quote_plus(email),
-			"all_user": "/api/users?limit=10"
+			"all_users": "/api/users?limit=10"
 		})
 	
 	results = { "msg": "can't pass form validation" }
@@ -158,9 +158,25 @@ def delete_users():
 			db.session.delete(user)
 		db.session.commit()
 	except:
-		return { "msg": "Can't delete" }
+		return jsonify({ "msg": "Can't delete" })
 		
 	return jsonify({ 
 		"msg": "Successfully deleted",
-		"all_user": "/api/users?limit=10"
+		"all_users": "/api/users?limit=10"
+	})
+
+# Delete a user record by id: /api/users/delete/<user_id>
+@app.route('/api/users/delete/<int:user_id>', methods = ['DELETE'])
+def delete_user_id(user_id):
+	user = User.query.get(user_id)
+	
+	try:
+		db.session.delete(user)
+		db.session.commit()
+	except:
+		return jsonify({ "msg": "Can't delete" })
+		
+	return jsonify({ 
+		"msg": "Successfully deleted",
+		"all_users": "/api/users/list"
 	})

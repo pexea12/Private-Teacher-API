@@ -3,33 +3,38 @@ from geopy.geocoders import GoogleV3
 
 geolocator = GoogleV3(timeout=5)
 
-class Student(db.Model):
-	__tablename__ = 'students'
+class Teacher(db.Model):
+	__tablename__ = 'teachers'
 	
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(80), nullable=False)
 	email = db.Column(db.String(120), nullable=False)
 	phone = db.Column(db.String(30), nullable=False)
 	description = db.Column(db.Text)
-	price_per_hour = db.Column(db.Integer)
-	school = db.Column(db.Text)
-	level = db.Column(db.Text)
+	salary_per_hour = db.Column(db.Integer)
+	job = db.Column(db.Text)
+	work_place = db.Column(db.Text)
+	level_to_teach = db.Column(db.Text)
 	image = db.Column(db.String(120))
 	location = db.Column(db.Text)
 	location_lon = db.Column(db.String(30), nullable=False)
 	location_lat = db.Column(db.String(30), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+	rating = db.Column(db.Float, default=0.0)
+	rating_number = db.Column(db.Integer, default=0)
 	
-	def __init__(self, name, email, phone, description, price_per_hour, school, level, user_id, location, image=''):
+	def __init__(self, name, email, phone, description, salary_per_hour, job, work_place, level_to_teach, user_id, location, image=''):
 		self.name = name
 		self.email = email
 		self.phone = phone
 		self.description = description
-		self.price_per_hour = price_per_hour
-		self.school = school
-		self.level = level
+		self.salary_per_hour = salary_per_hour
+		self.job = job
+		self.work_place = work_place
 		self.user_id = user_id
+		self.level_to_teach = level_to_teach
 		self.image = image if image != '' else '/static/default.jpg'
+		self.user_id = user_id
 		
 		location = geolocator.geocode(location)
 		
@@ -38,4 +43,4 @@ class Student(db.Model):
 		self.location_lat = location.latitude
 		
 	def __repr__(self):
-		return '<Student %r>' % self.name
+		return '<Teacher %r>' % self.name

@@ -7,3 +7,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 from .User import User
+from .Student import Student
+from .Teacher import Teacher

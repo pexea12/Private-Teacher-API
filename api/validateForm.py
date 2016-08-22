@@ -146,3 +146,10 @@ class TeacherUpdateForm(Form):
 	user_id = IntegerField('user_id', [
 		Optional()
 	])
+	
+class LoginForm(Form):
+	email = StringField('email', [
+		DataRequired(), 
+		Email()
+	])
+	password = PasswordField('password', [ DataRequired() ])

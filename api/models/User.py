@@ -22,3 +22,18 @@ class User(db.Model):
 		
 	def __repr__(self):
 		return '<User %r>' % self.name
+	
+	def is_authenticated():
+		return True
+		
+	def is_active():
+		return True
+		
+	def is_anonymous():
+		return False
+		
+	def get_id(self):
+		return str(self.id)
+		
+	def is_admin(self):
+		return self.priviledge == 'Admin'

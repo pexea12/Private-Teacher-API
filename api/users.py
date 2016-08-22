@@ -1,6 +1,10 @@
-from api import app, db, User
+from api import app, db, login_manager, User
 from flask import jsonify, request
+import bcrypt
+from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import AnonymousUserMixin as Anonymous
 
+# Helper function
 def selectParams():
 	''' Select necessary params from request.args '''
 	params = {}
@@ -10,11 +14,55 @@ def selectParams():
 		if name in request.args:
 			params[name] = request.args[name]
 	return params
+
+@login_manager.user_loader
+def load_user(id):
+	return User.query.get(id)
+	
+from .validateForm import LoginForm
+
+# /api/login/
+@app.route('/api/login', methods=['POST'])
+def login():
+	if current_user.is_authenticated:
+		return jsonify({ "msg": "you have already logged in" })
+		
+	form = LoginForm(request.form)
+
+	if form.validate_on_submit():
+		email = form.data['email']
+		password = form.data['password']
+		
+		user = User.query.filter_by(email=email).first()
+		
+		if user is None:
+			return jsonify({ "msg": "user not found" })
+			
+		if not bcrypt.checkpw(password.encode(), user.password):
+			return jsonify({ "msg": "password not matched" })
+			
+		login_user(user)
+		return jsonify({
+			"msg": "login successfully",
+			"email": user.email,
+			"name": user.name,
+			"url": "/api/users?id=" + str(user.id)
+		})
+
+# /api/logout
+@app.route('/api/logout', methods=['GET'])
+@login_required
+def logout():
+	logout_user()
+	return jsonify({ "msg": "logout successfully" })
 	
 # /api/users/
 @app.route('/api/users', methods=['GET'])
+@login_required
 def get_users():
-
+	if not current_user.is_admin():
+		return jsonify({ "msg": "member is not allowed to access" })
+		
 	# Take the params
 	limit = request.args.get('limit', None)
 	
@@ -54,6 +102,21 @@ def get_users():
 		
 	return jsonify(results)
 
+# /api/users/<int:user_id>
+@app.route('/api/users/<int:user_id>', methods=['GET'])
+@login_required
+def get_user_by_id(user_id):
+	if not current_user.is_admin() and current_user.id != user_id:
+		return jsonify({ "msg": "you are not allowed to access" })
+		
+	user = User.query.get(user_id)
+	result = user.__dict__
+	
+	del result['_sa_instance_state']
+	del result['password']
+	
+	return jsonify(result)
+
 from .validateForm import UserForm
 import bcrypt, urllib
 	
@@ -63,6 +126,9 @@ def post_users():
 	if request.method == 'GET':
 		return jsonify({ 'msg': 'This URL is only for POST request' })
 	
+	if not isinstance(current_user, Anonymous) and not current_user.is_admin():
+		return jsonify({ "msg": "You are not allowed to add user" })
+		
 	# Process with POST data sent from HTML form
 	form = UserForm(request.form)
 	
@@ -96,46 +162,43 @@ def post_users():
 from .validateForm import UserUpdateForm
 	
 # /api/users/update/
-@app.route('/api/users/update', methods=['PUT', 'GET'])
-def put_users():
+@app.route('/api/users/update/<int:user_id>', methods=['PUT', 'GET'])
+@login_required
+def put_users(user_id):
 	if request.method == 'GET':
 		return jsonify({ 'msg': 'This URL is only for PUT request' })
 
-	params = selectParams()
-	
-	if len(params) == 0:
-		return jsonify({ "msg": "no record to update" })
+	if not current_user.is_admin() and user_id != current_user.id:
+		return jsonify({ "msg": "you are not allowed to update this user" })
 		
-	updateUsers = User.query.filter_by(**params).all()
+	updateUser = User.query.get(user_id)
+	
+	if updateUser is None:
+		return jsonify({ "msg": "user not found" })
 	
 	form = UserUpdateForm(request.form)
 	
 	if form.validate_on_submit():
-		for user in updateUsers:
-			for name in form.data:
-				if form.data[name] != '':
-					if name == 'password':
-						password = bcrypt.hashpw(form.data['password'], bcrypt.gensalt())
-						setattr(user, name, password)
-					else: 
-						setattr(user, name, form.data[name])
+		for value in form.data:
+			if form.data[value] != '':
+				if value == 'password':
+					password = bcrypt.hashpw(form.data['password'], bcrypt.gensalt())
+					setattr(user, value, password)
+				else: 
+					setattr(user, value, form.data[value])
     
 		db.session.commit()
 	
-		results = []
-		for user in updateUsers:
-			result = {}
-			
-			result['id'] = user.id
-			result['name'] = user.name
-			result['image'] = user.image
-			result['phone'] = user.phone
-			result['email'] = user.email
-			result['priviledge'] = user.priviledge
-			
-			results.append(result)
+		result = user.__dict__
 		
-		return jsonify({ "msg": "updated successfully", "results": results })
+		del user['_sa_instance_state']
+		del user['password']
+		
+		return jsonify({ 
+			"msg": "updated successfully", 
+			"result": result,
+			"url": '/api/users/' + str(user.id)
+		})
 	
 	results = { "msg": "can't pass form validation" }
 	results["errors"] = form.errors
@@ -144,32 +207,19 @@ def put_users():
 
 	
 # /api/users/delete/
-@app.route('/api/users/delete', methods=['DELETE', 'GET'])
-def delete_users():
+@app.route('/api/users/delete/<int:user_id>', methods=['DELETE', 'GET'])
+@login_required
+def delete_users(user_id):
 	if request.method == 'GET':
 		return jsonify({ 'msg': 'This URL is only for DELETE request' })
 
-	params = selectParams()
+	if not current_user.is_admin():
+		return jsonify({ "msg": "you are not allowed to delete this user" })
 	
-	deleteUsers = User.query.filter_by(**params).all()
-	
-	try:
-		for user in deleteUsers:
-			db.session.delete(user)
-		db.session.commit()
-	except:
-		return jsonify({ "msg": "Can't delete" })
-		
-	return jsonify({ 
-		"msg": "Successfully deleted",
-		"all_users": "/api/users?limit=10"
-	})
-
-# Delete a user record by id: /api/users/delete/<user_id>
-@app.route('/api/users/delete/<int:user_id>', methods = ['DELETE'])
-def delete_user_id(user_id):
 	user = User.query.get(user_id)
 	
+	if user is None:
+		return jsonify({ "msg": "user not found" })
 	try:
 		db.session.delete(user)
 		db.session.commit()
@@ -178,5 +228,5 @@ def delete_user_id(user_id):
 		
 	return jsonify({ 
 		"msg": "Successfully deleted",
-		"all_users": "/api/users/list"
+		"all_users": "/api/users?limit=10"
 	})

@@ -1,7 +1,9 @@
-from api import app
-from flask import render_template
-from api.validateForm import UserForm
+from api import app, login_manager
 
 app.secret_key = 'Intelligence Program'
 	
+login_manager.init_app(app)
+
+import routes
+
 app.run(debug=True)

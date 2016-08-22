@@ -1,5 +1,6 @@
 from api import app, db, Teacher
 from flask import jsonify, request
+from flask_login import current_user, login_required
 
 def selectParams():
 	''' Select necessary params from request.args '''
@@ -52,6 +53,7 @@ def get_a_teacher(teacher_id):
 from .validateForm import TeacherForm
 
 @app.route('/api/teachers/add', methods = ['POST'])
+@login_required
 def add_teacher():
 	form = TeacherForm(request.form)
 	
@@ -79,63 +81,50 @@ def add_teacher():
 
 from .validateForm import TeacherUpdateForm
 
-@app.route('/api/teachers/update', methods = ['PUT'])
-def put_teachers():
-	params = selectParams()
+@app.route('/api/teachers/update/<int:teacher_id>', methods = ['PUT'])
+@login_required
+def put_teachers(teacher_id):
+	updateTeacher = Teacher.query.get(teacher_id)
 	
-	if len(params) == 0:
-		return jsonify({ "msg": "no record to update" })
+	if updateTeacher is None:
+		return jsonify({ "msg": "teacher not found" })
 		
-	updateTeachers = Teacher.query.filter_by(**params).all()
+	if not current_user.is_admin() and updateTeacher.user_id != current_user.id:
+		return jsonify({ "msg": "you are not allowed to update this teacher" })
 	
 	form = TeacherUpdateForm(request.form)
 	
 	if form.validate_on_submit():
-		for user in updateTeachers:
-			for name in form.data:
-				if form.data[name] != '':
-					setattr(user, name, form.data[name])
+		for value in form.data:
+			if form.data[value] != '':
+				setattr(updateTeacher, value, form.data[value])
     
 		db.session.commit()
 		
-		results = [teacher.__dict__ for teacher in updateTeachers]
+		result = updateTeacher.__dict__
 		
-		for result in results:
-			del result['_sa_instance_state']
+		del result['_sa_instance_state']
 		
-		return jsonify({ "msg": "updated successfully", "results": results })
+		return jsonify({ 
+			"msg": "updated successfully", 
+			"result": result 
+		})
 	
 	results = { "msg": "can't pass form validation" }
 	results["errors"] = form.errors
 	
 	return jsonify(results)
-
-	
-# /api/teachers/delete/
-@app.route('/api/teachers/delete', methods=['DELETE'])
-def delete_teachers():
-
-	params = selectParams()
-	
-	deleteTeachers = Teacher.query.filter_by(**params).all()
-	
-	try:
-		for teacher in deleteTeachers:
-			db.session.delete(teacher)
-		db.session.commit()
-	except:
-		return jsonify({ "msg": "Can't delete" })
-		
-	return jsonify({ 
-		"msg": "Successfully deleted",
-		"all_teachers": "/api/teachers/list"
-	})
-	elete
 	
 # Delete a teacher record by id: /api/teachers/delete/<teacher_id>
 @app.route('/api/teachers/delete/<int:teacher_id>', methods = ['DELETE'])
+@login_required
 def delete_teacher_id(teacher_id):
 	teacher = Teacher.query.get(teacher_id)
+	
+	if teacher is None:
+		return jsonify({ "msg": "teacher not found" })
+	if not current_user.is_admin() and teacher.user_id != current_user.id:
+		return jsonify({ "msg": "you are not allowed to delete this teacher" })
 	
 	try:
 		db.session.delete(teacher)

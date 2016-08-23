@@ -32,7 +32,7 @@ Web service for Private-Teacher project. Written by Flask (Python)
 
 ## Students
 
-`/api/students/list` (*All**) - **GET**
+`/api/students/list` (**All**) - **GET**
 * View the students table
 * Params: 
   * `id`, `name`, `email`, `phone`, `image`
@@ -43,10 +43,10 @@ Web service for Private-Teacher project. Written by Flask (Python)
   * `location`: The location of the student
   * `limit`: Limit the number of records
 
-`/api/students/<int:student_id>` (*All**) - **GET**
+`/api/students/<int:student_id>` (**All**) - **GET**
 * View the student by ID
 
-`/api/students/add` (*_Admin, Member_**) - **POST**
+`/api/students/add` (**_Admin, Member_**) - **POST**
 * Add new student profile
 * Params: 
   * `name`, `email`, `phone`, `image`
@@ -57,17 +57,17 @@ Web service for Private-Teacher project. Written by Flask (Python)
   * `description`: What the student wants to say about him or her
   * `location`: The location of the student
 
-`/api/students/update/<int:student_id>` (*_Admin, Member_**) - **PUT**
+`/api/students/update/<int:student_id>` (**_Admin, Member_**) - **PUT**
 * Update the info of the student by student ID. Members can only update the student profiles that they create
 * Params: The same params as `/api/students/add`
 
-`/api/students/delete/<int:student_id>` (*_Admin, Member_**) - **DELETE**
+`/api/students/delete/<int:student_id>` (**_Admin, Member_**) - **DELETE**
 * Delete the student profiles by student ID. Members can only delete their profiles
 
 
 ## Teachers
 
-`/api/teachers/list` (*All**) - **GET**
+`/api/teachers/list` (**All**) - **GET**
 * View the teachers table
 * Params: 
   * `id`, `name`, `email`, `phone`, `image`
@@ -79,10 +79,10 @@ Web service for Private-Teacher project. Written by Flask (Python)
   * `location`: The location of the teacher
   * `limit`: Limit the number of records
 
-`/api/teachers/<int:teacher_id>` (*All**) - **GET**
+`/api/teachers/<int:teacher_id>` (**All**) - **GET**
 * View the teacher by ID
 
-`/api/teachers/add` (*_Admin, Member_**) - **POST**
+`/api/teachers/add` (**_Admin, Member_**) - **POST**
 * Add new teacher profile
 * Params: 
   * `id`, `name`, `email`, `phone`, `image`
@@ -97,9 +97,9 @@ Web service for Private-Teacher project. Written by Flask (Python)
   * `rating_number`: The number of ratings that the teacher receives
   * `limit`: Limit the number of records
 
-`/api/teachers/update/<int:teacher_id>` (*_Admin, Member_**) - **PUT**
+`/api/teachers/update/<int:teacher_id>` (**_Admin, Member_**) - **PUT**
 * Update the info of the teacher by teacher ID. Members can only update the teacher profiles that they create
 * Params: The same params as `/api/teachers/add`
 
-`/api/teachers/delete/<int:teacher_id>` (*_Admin_**) - **DELETE**
+`/api/teachers/delete/<int:teacher_id>` (**_Admin_**) - **DELETE**
 * Delete the teacher profiles by teacher ID. Members can only delete their profiles

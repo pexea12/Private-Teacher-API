@@ -17,14 +17,15 @@ def selectParams():
 def get_all_teachers():
 	teachers = Teacher.query
 	
-	limit = request.args.get('limit', None)
-	
+	limit = request.args.get('limit', 20)
 	params = selectParams()
+		
+	teachers = teachers.filter_by(**params)
 	
 	if limit is not None:
 		teachers = teachers.limit(limit)
-		
-	teachers = teachers.filter_by(**params).all()
+	
+	teachers = teachers.all()
 	
 	if len(teachers) == 0:
 		return jsonify({ "msg": "no teacher found" })

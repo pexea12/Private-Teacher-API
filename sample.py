@@ -59,6 +59,7 @@ db.session.add(Student(
 	'Elite',
 	1,
 	'182 Luong The Vinh, Thanh Xuan, Ha Noi',
+	'Math',
 	'default1.jpg'
 ))
 
@@ -72,6 +73,7 @@ db.session.add(Student(
 	'Medium',
 	5,
 	'144 Xuan Thuy, Cau Giay, Ha Noi',
+	'Math',
 	'default1.jpg'
 ))
 
@@ -85,6 +87,7 @@ db.session.add(Student(
 	'Beginner',
 	1,
 	'Dai hoc Bach Khoa Ha Noi',
+	'Math',
 	'default1.jpg'
 ))
 
@@ -98,6 +101,7 @@ db.session.add(Student(
 	'Normal',
 	2,
 	'16A Ly Nam De, Ha Noi',
+	'Math',
 	'default1.jpg'
 ))
 
@@ -111,6 +115,7 @@ db.session.add(Student(
 	'Elite',
 	2,
 	'Ho Chi Minh City',
+	'Math',
 	'default1.jpg'
 ))
 
@@ -128,6 +133,7 @@ db.session.add(Teacher(
 	'elite',
 	1,
 	'43 Nguyen Chi Thanh, Hanoi',
+	'Math'
 ))
 
 db.session.add(Teacher(
@@ -141,6 +147,7 @@ db.session.add(Teacher(
 	'beginner',
 	1,
 	'47 Nguyen Chi Thanh, Hanoi',
+	'Math'
 ))
 
 db.session.add(Teacher(
@@ -154,6 +161,7 @@ db.session.add(Teacher(
 	'expert',
 	2,
 	'Sapa, Lao Cai',
+	'Math'
 ))
 
 db.session.add(Teacher(
@@ -167,6 +175,7 @@ db.session.add(Teacher(
 	'medium',
 	5,
 	'Manchester, England',
+	'Math'
 ))
 
 db.session.add(Teacher(
@@ -180,6 +189,7 @@ db.session.add(Teacher(
 	'beginner',
 	2,
 	'43 Nguyen Chi Thanh, Hanoi',
+	'Math'
 ))
 
 db.session.commit()

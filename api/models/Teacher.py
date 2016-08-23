@@ -22,8 +22,9 @@ class Teacher(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 	rating = db.Column(db.Float, default=0.0)
 	rating_number = db.Column(db.Integer, default=0)
+	subjects = db.Column(db.Text)
 	
-	def __init__(self, name, email, phone, description, salary_per_hour, job, work_place, level_to_teach, user_id, location, image=''):
+	def __init__(self, name, email, phone, description, salary_per_hour, job, work_place, level_to_teach, user_id, location, subjects, image=''):
 		self.name = name
 		self.email = email
 		self.phone = phone
@@ -41,6 +42,8 @@ class Teacher(db.Model):
 		self.location = location.address
 		self.location_lon = location.longitude
 		self.location_lat = location.latitude
+		
+		self.subjects = subjects
 		
 	def __repr__(self):
 		return '<Teacher %r>' % self.name

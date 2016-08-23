@@ -17,14 +17,15 @@ def selectParams():
 def get_all_students():
 	students = Student.query
 	
-	limit = request.args.get('limit', None)
-	
+	limit = request.args.get('limit', 20)
 	params = selectParams()
+		
+	students = students.filter_by(**params)
 	
 	if limit is not None:
 		students = students.limit(limit)
-		
-	students = students.filter_by(**params).all()
+	
+	students = students.all()
 	
 	if len(students) == 0:
 		return jsonify({ "msg": "no student found" })
@@ -137,7 +138,7 @@ def delete_student_id(student_id):
 		"all_students": "/api/students/list"
 	})
 	
-@app.route('/api/students/rate/<int:teacher_id>')
+@app.route('/api/students/rate/<int:teacher_id>', methods=['GET'])
 @login_required
 def rate_teacher(teacher_id):
 	rating = request.args.get('rating', None)
@@ -165,4 +166,27 @@ def rate_teacher(teacher_id):
 		"teacher_id": teacher.id,
 		"teacher_rating": teacher.rating
 	})
+
+from geopy.geocoders import GoogleV3
+from .helpers import distance
+
+geolocator = GoogleV3(timeout=5)
+
+@app.route('/api/students/recommend', methods=['POST'])
+def recommend_students():
+	'price_per_hour', 'level','location', 'subjects'
+	students = Student.query.all()
 	
+	params = selectParams()
+	location = geolocator.geocode(params['location'])
+	
+	location_lon = location.longitude
+	location_lat = location.latitude
+	
+	
+	for student in students:
+		student.distance = distance(student.location_lon, student.location_lat, location_lon, location_lat)
+		student.price = params['price_per_hour'] - student.price_per_hour
+		
+	
+	return str(len(students))

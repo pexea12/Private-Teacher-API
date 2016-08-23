@@ -1,0 +1,9 @@
+<form id="add_user_form" method="post" action="/api/users/add">
+    Name: <input type="text" name="name"><br>
+    Email: <input type="email" name="email"><br>
+    Password: <input type="password" name="password"><br>
+    Confirm: <input type="password" name="confirm"><br>
+    Priviledge:<input type="text" name="priviledge"><br>
+    Phone: <input type="text" name="phone"><br>
+    <input type="submit" value="Add">
+</form>

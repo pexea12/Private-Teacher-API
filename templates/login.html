@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/static/jquery.form.js"></script>
+    <script src="/static/fscript.js"></script>
+
+</head>
+<body>
+<form id="formoid" method="post" action="/api/login">
+    Email:<br>
+    <input id="email" type="text" name="email">
+
+    Password:
+    <input id="password" type="password" name="password">
+    <input type="submit" value="Login">
+</form>
+<br><button id="logout_button">Logout</button><br>
+<br>
+<button id="show_user_butt">Show Users</button>
+<button id="show_teacher_butt">Show Teachers</button>
+<button id="show_student_butt">Show Student</button>
+<button id="add_user_butt">Register</button>
+<div id="show_user_div"></div>
+<div id="show_student_div"></div>
+<div id="show_teacher_div"></div>
+
+<div id="add_user_div" >
+    <form id="add_user_form" method="post" action="/api/users/add">
+    Name: <input type="text" name="name"><br>
+    Email: <input type="email" name="email"><br>
+    Password: <input type="password" name="password"><br>
+    Confirm: <input type="password" name="confirm"><br>
+    Priviledge:<input type="text" name="priviledge"><br>
+    Phone: <input type="text" name="phone"><br>
+    <input type="submit" value="Add">
+</form>
+</div>
+<p>After You've Logged In, You can add teachers and students to your profile</p>
+<a href="/add">Add teachers and students</a>
+<p>You can also view all users if you are admin</p>
+<a href="/list_own">Manage your own list of teachers</a>
+</body>
+</html>
+<!--http://127.0.0.1:2345-->

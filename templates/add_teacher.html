@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teachers Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/static/jquery.form.js"></script>
+    <script src="/static/bscript.js"></script>
+</head>
+<body>
+<h1>ADD TEACHERS FOR USER</h1>
+    <form class="formo" id="add_teacher_form" action="/api/teachers/add" method="post">
+        Name       :<input type="text" name="name"><br>
+        Email      :<input type="email" name="email"><br>
+        Phone:      <input type="text" name="phone"><br>
+        Description:<input type="text" name="description"><br>
+        Salary:     <input type="number" name="salary_per_hour"><br>
+        School:     <input type="text" name="school"><br>
+        Work Space: <input type="text" name="work_space"><br>
+        Level:      <input type="text" name="level"><br>
+        Location:   <input type="text" name="location"><br>
+        <input id="user_id_t" type="text" name="user_id"><br>
+        <input type="submit"  value="Add Teacher"><br>
+    </form><br>
+
+<h2>ADD STUDENTS FOR USER</h2>
+    <form class="formo" id="add_student_form" action="/api/students/add" method="post">
+         Name:<input type="text" name="name"><br>
+        Email:<input type="email" name="email"><br>
+        Phone: <input type="text" name="phone"><br>
+        Salary:<input type="text" name="salary_per_hour"><br>
+        Description:<input type="text" name="description"><br>
+        School:<input type="text" name="school"><br>
+        Work Space:<input type="text" name="work_space"><br>
+        Level:<input type="text" name="level"><br>
+        Location:<input type="text" name="location"><br>
+        <input id="user_id_s" type="text" name="user_id"><br>
+        <input type="submit" value="Add Student"><br>
+    </form><br>
+
+
+</body>
+</html>

@@ -68,7 +68,7 @@ def get_users():
 		return jsonify({ "msg": "member is not allowed to access" })
 		
 	# Take the params
-	limit = request.args.get('limit', None)
+	limit = request.args.get('limit', 20)
 	
 	params = selectParams()
 	

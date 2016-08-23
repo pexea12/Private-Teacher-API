@@ -20,7 +20,9 @@ class Student(db.Model):
 	location_lat = db.Column(db.String(30), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 	
-	def __init__(self, name, email, phone, description, price_per_hour, school, level, user_id, location, image=''):
+	subjects = db.Column(db.Text)
+	
+	def __init__(self, name, email, phone, description, price_per_hour, school, level, user_id, location, subjects, image=''):
 		self.name = name
 		self.email = email
 		self.phone = phone
@@ -36,6 +38,8 @@ class Student(db.Model):
 		self.location = location.address
 		self.location_lon = location.longitude
 		self.location_lat = location.latitude
+		
+		self.subjects = subjects
 		
 	def __repr__(self):
 		return '<Student %r>' % self.name

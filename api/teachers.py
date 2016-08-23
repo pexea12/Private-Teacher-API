@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 def selectParams():
 	''' Select necessary params from request.args '''
 	params = {}
-	list = ['id', 'name', 'email', 'phone', 'description', 'salary_per_hour', 'job', 'work_place', 'level_to_teach', 'user_id', 'image', 'location', 'location_lon', 'location_lat', 'rating', 'rating_number' ]
+	list = ['id', 'name', 'email', 'phone', 'description', 'salary_per_hour', 'job', 'work_place', 'level_to_teach', 'user_id', 'image', 'location', 'rating', 'rating_number', 'subjects' ]
 	
 	for name in list:
 		if name in request.args:

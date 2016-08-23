@@ -1,11 +1,11 @@
-from api import app, db, Student
+from api import app, db, Student, Teacher
 from flask import jsonify, request
 from flask_login import current_user, login_required
 
 def selectParams():
 	''' Select necessary params from request.args '''
 	params = {}
-	list = ['id', 'name', 'email', 'phone', 'description', 'price_per_hour', 'school', 'level', 'user_id', 'image', 'location', 'location_lon', 'location_lat']
+	list = ['id', 'name', 'email', 'phone', 'description', 'price_per_hour', 'school', 'level', 'user_id', 'image', 'location', 'subjects']
 	
 	for name in list:
 		if name in request.args:
@@ -136,3 +136,33 @@ def delete_student_id(student_id):
 		"msg": "Successfully deleted",
 		"all_students": "/api/students/list"
 	})
+	
+@app.route('/api/students/rate/<int:teacher_id>')
+@login_required
+def rate_teacher(teacher_id):
+	rating = request.args.get('rating', None)
+	
+	teacher = Teacher.query.get(teacher_id)
+	
+	if teacher is None:
+		return jsonify({ "msg": "teacher not found" })
+	if rating is None:
+		return jsonify({ "msg": "you don't rate this teacher"})
+		
+	current_rating = teacher.rating
+	rating_no = teacher.rating_number
+
+	current_rating = (current_rating * rating_no + rating) / rating_no
+	rating_no = rating_no + 1
+
+	teacher.rating = current_rating
+	teacher.rating_number = rating_no
+	
+	db.session.commit()
+	
+	return jsonify({ 
+		"msg": "rated successfully",
+		"teacher_id": teacher.id,
+		"teacher_rating": teacher.rating
+	})
+	

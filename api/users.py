@@ -48,6 +48,10 @@ def login():
 			"name": user.name,
 			"url": "/api/users?id=" + str(user.id)
 		})
+	
+	return jsonify({
+		"msg": "login failed"
+	});
 
 # /api/logout
 @app.route('/api/logout', methods=['GET'])
@@ -206,7 +210,7 @@ def put_users(user_id):
 	return jsonify(results)
 
 	
-# /api/users/delete/
+# /api/users/delete/<int:user_id>
 @app.route('/api/users/delete/<int:user_id>', methods=['DELETE', 'GET'])
 @login_required
 def delete_users(user_id):

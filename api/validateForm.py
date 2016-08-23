@@ -68,6 +68,7 @@ class StudentForm(Form):
 	user_id = IntegerField('user_id', [
 		DataRequired()
 	])
+	subjects = TextField('subjects')
 	
 class StudentUpdateForm(Form):
 	name = StringField('name', [
@@ -93,6 +94,7 @@ class StudentUpdateForm(Form):
 	user_id = IntegerField('user_id', [
 		Optional()
 	])
+	subjects = TextField('subjects')
 
 class TeacherForm(Form):
 	name = StringField('name', [
@@ -108,7 +110,7 @@ class TeacherForm(Form):
 		Length(max=30)
 	])
 	description = TextField('description')
-	salary = IntegerField('salary_per_hour')
+	salary_per_hour = IntegerField('salary_per_hour')
 	job = TextField('school')
 	work_place = TextField('work_place')
 	level_to_teach = TextField('level')
@@ -119,6 +121,7 @@ class TeacherForm(Form):
 	user_id = IntegerField('user_id', [
 		DataRequired()
 	])
+	subjects = TextField('subjects')
 	
 class TeacherUpdateForm(Form):
 	name = StringField('name', [
@@ -146,6 +149,7 @@ class TeacherUpdateForm(Form):
 	user_id = IntegerField('user_id', [
 		Optional()
 	])
+	subjects = TextField('subjects')
 	
 class LoginForm(Form):
 	email = StringField('email', [

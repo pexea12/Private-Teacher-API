@@ -1,0 +1,70 @@
+<html>
+<header> 
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/static/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/style.css">
+</header>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Private Teacher</a>
+			</div> <!-- .navbar-header -->
+			<div id="navbar" class="navbar-collapse collapse">
+				<form class="navbar-form navbar-right sign-in">
+					<div class="form-group">
+						<input type="text" id="email" placeholder="Email" class="form-control">
+					</div> <!-- .form-group -->
+					<div class="form-group">
+						<input type="password" id="password" placeholder="Password" class="form-control">
+					</div> <!-- .form-group -->
+					<button type="button" class="btn btn-danger">Sign in</button>
+				</form>
+			</div><!--/.navbar-collapse -->
+      </div> <!-- .container -->
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action --> 
+	<div class="jumbotron"> 
+		<div class="container">
+		<h2>Tìm kiếm Gia sư và Học sinh</h2>
+		<form>
+			<input name="query" id="query" type="text" class="form-control">
+			<button type="button" class="btn btn-success">Search</button>
+		</form>
+		</div>
+	</div>
+	
+	<script src="/static/jquery-3.1.0.min.js"></script>
+	<script src="/static/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('.sign-in button').click(function() {
+				var email = $('input#email').val();
+				var password = $('input#password').val();
+				
+				$.ajax({
+					url: '/api/login',
+					type: 'POST',
+					data: {
+						email: email,
+						password: password
+					},
+					dataType: 'json',
+					success: function(result, status, xhr) {
+						console.log(result);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

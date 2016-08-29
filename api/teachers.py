@@ -117,7 +117,7 @@ def put_teachers(teacher_id):
 	return jsonify(results)
 	
 # Delete a teacher record by id: /api/teachers/delete/<teacher_id>
-@app.route('/api/teachers/delete/<int:teacher_id>', methods = ['DELETE'])
+@app.route('/api/teachers/delete/<int:teacher_id>', methods = ['DELETE','GET'])
 @login_required
 def delete_teacher_id(teacher_id):
 	teacher = Teacher.query.get(teacher_id)

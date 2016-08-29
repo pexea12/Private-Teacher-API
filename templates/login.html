@@ -6,6 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="/static/jquery.form.js"></script>
     <script src="/static/fscript.js"></script>
+    <link rel="stylesheet" href="/static/form.css">
+
 
 </head>
 <body>
@@ -27,7 +29,7 @@
 <div id="show_student_div"></div>
 <div id="show_teacher_div"></div>
 
-<div id="add_user_div" >
+<div id="add_user_div" class="container">
     <form id="add_user_form" method="post" action="/api/users/add">
     Name: <input type="text" name="name"><br>
     Email: <input type="email" name="email"><br>

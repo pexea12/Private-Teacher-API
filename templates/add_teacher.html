@@ -6,9 +6,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="/static/jquery.form.js"></script>
     <script src="/static/bscript.js"></script>
+    <link rel="stylesheet" href="/static/form.css">
 </head>
 <body>
 <h1>ADD TEACHERS FOR USER</h1>
+<div class="container">
     <form class="formo" id="add_teacher_form" action="/api/teachers/add" method="post">
         Name       :<input type="text" name="name"><br>
         Email      :<input type="email" name="email"><br>
@@ -22,8 +24,10 @@
         <input id="user_id_t" type="text" name="user_id"><br>
         <input type="submit"  value="Add Teacher"><br>
     </form><br>
+</div>
 
 <h2>ADD STUDENTS FOR USER</h2>
+<div class="container">
     <form class="formo" id="add_student_form" action="/api/students/add" method="post">
          Name:<input type="text" name="name"><br>
         Email:<input type="email" name="email"><br>
@@ -37,7 +41,7 @@
         <input id="user_id_s" type="text" name="user_id"><br>
         <input type="submit" value="Add Student"><br>
     </form><br>
-
+</div>
 
 </body>
 </html>

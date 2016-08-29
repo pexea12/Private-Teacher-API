@@ -15,6 +15,12 @@ def selectParams():
 			params[name] = request.args[name]
 	return params
 
+
+@app.route('/api/get_id')
+def getid():
+	return jsonify({'id':current_user.id})
+
+
 @login_manager.user_loader
 def load_user(id):
 	return User.query.get(id)

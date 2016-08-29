@@ -5,6 +5,12 @@
     <title>Your List</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="/static/ascript.js"></script>
+    <script>
+        function delete_teacher(id){
+            $.get("/api/teachers/delete/"+id);
+            location.reload();
+    }
+    </script>
 </head>
 <body>
 

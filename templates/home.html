@@ -1,0 +1,401 @@
+{% extends "_layout.html" %}
+
+{% block main %}
+<div class="jumbotron"> 
+	<div class="container">
+		<h2>Tìm kiếm Gia sư và Học sinh</h2>
+		<ul class="nav nav-tabs">
+			<li class="nav active"><a href="#teacher-search" data-toggle="tab"><h5><strong>Tìm kiếm gia sư</strong></h5></a></li>
+			<li class="nav"><a href="#student-search" data-toggle="tab"><h5><strong>Tìm kiếm học sinh</strong></h5></a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div class="tab-pane fade in active container" id="teacher-search">
+				<form>
+					<div class="form-group col-md-6">
+						<label for="salary_per_hour">Giá tối đa </label>
+						<input type="number" id="teacher-salary_per_hour" name="teacher-salary_per_hour" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="level">Trình độ </label>
+						<input type="text" id="teacher-level_to_teach" name="teacher-level_to_teach" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="subjects">Môn học </label>
+						<input type="text" id="teacher-subjects" name="teacher-subjects" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="limit">Hiển thị </label>
+						<input type="number" id="teacher-limit" name="teacher-limit" class="form-control" value="10">
+					</div>
+					<button type="button" class="btn btn-default" id="button-search-teacher">Search</button>
+				</form>
+				
+				<div class="container bootstrap snippet">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="main-box no-header clearfix">
+								<div class="main-box-body clearfix">
+									<div class="table-responsive">
+										<table class="table teacher-list">
+											<thead>
+												<tr>
+													<th><span>ID</span>
+													<th><span>Tên</span></th>
+													<th><span>Địa điểm</span></th>
+													<th><span>Email</span></th>
+													<th><span>Số điện thoại</span>
+													<th><span>Rating</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div> <!-- .table-responsive -->
+								</div> <!-- .main-box-body -->
+							</div> <!-- .main-box -->
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .container bootstrap snippet -->
+			</div> <!-- #teacher-search -->
+			
+			<div class="tab-pane fade" id="student-search">
+				<form>
+					<div class="form-group col-md-6">
+						<label for="price_per_hour">Giá tối thiểu </label>
+						<input type="number" id="student-price_per_hour" name="student-price_per_hour" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="level">Trình độ </label>
+						<input type="text" id="student-level" name="student-level" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="subjects">Môn học </label>
+						<input type="text" id="student-subjects" name="student-subjects" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="location">Địa điểm </label>
+						<input type="text" id="student-location" name="student-location" class="form-control">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="limit">Hiển thị </label>
+						<input type="number" id="student-limit" name="student-limit" class="form-control" value="10">
+					</div>
+					<button type="button" class="btn btn-default" id="button-search-student">Search</button>
+				</form>
+				
+				<div class="container bootstrap snippet">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="main-box no-header clearfix">
+								<div class="main-box-body clearfix">
+									<div class="table-responsive">
+										<table class="table student-list">
+											<thead>
+												<tr>
+													<th><span>ID</span>
+													<th><span>Tên</span></th>
+													<th><span>Địa điểm</span></th>
+													<th><span>Email</span></th>
+													<th><span>Số điện thoại</span>
+												</tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div> <!-- .table-responsive -->
+								</div> <!-- .main-box-body -->
+							</div> <!-- .main-box -->
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .container bootstrap snippet -->
+			</div> <!-- .student-search -->
+		</div> <!-- .tab-content -->
+	</div> <!-- .container -->
+</div> <!-- .jumbotron -->
+
+
+
+<div id="show-teacher" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Xem gia sư</h4>
+			</div> <!-- .modal-header -->
+			<div class="modal-body" style="overflow-y: scroll; height: 400px;">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3" align="center">
+							<img alt="User Picture" src="http://i.imgur.com/Km2enGq.png" class="img-circle img-responsive" id="teacher-image">
+						</div> 
+						<div class=" col-md-9 col-lg-9 "> 
+							<table class="table table-user-information">
+								<tbody>
+									<tr>
+										<td>Tên:</td>
+										<td id="teacher-name">Name</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td id="teacher-email"><a href="mailto:info@support.com">email</a></td>
+									</tr>
+									<tr>
+										<td>Số điện thoại</td>
+										<td id="teacher-phone">Phone</td>
+									</tr>
+									<tr>
+										<td>Mô tả</td>
+										<td id="teacher-description">Description</td>
+									</tr>
+									<tr>
+										<td>Mức lương/h</td>
+										<td id="teacher-salary_per_hour">Salary</td>
+									</tr>
+									<tr>
+										<td>Nghề nghiệp</td>
+										<td id="teacher-job">Job</td>
+									</tr>
+									<tr>
+										<td>Trình độ học sinh</td>
+										<td id="teacher-level_to_teach">Level</td>
+									</tr>
+									<tr>
+										<td>Địa điểm</td>
+										<td id="teacher-location">Location</td>
+									</tr>
+									<tr>
+										<td>Môn học</td>
+										<td id="teacher-subjects">SUbjects</td>
+									</tr>
+									<tr>
+										<td>Rating</td>
+										<td id="teacher-rating">Rating</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .panel-body -->
+			</div> <!-- .modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div> <!-- .modal-footer -->
+		</div> <!-- .modal-content -->
+	</div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+<div id="show-student" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Xem học sinh</h4>
+			</div> <!-- .modal-header -->
+			<div class="modal-body" style="overflow-y: scroll; height: 400px;">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3" align="center">
+							<img alt="User Picture" src="http://i.imgur.com/Km2enGq.png" class="img-circle img-responsive" id="student-image">
+						</div> 
+						<div class=" col-md-9 col-lg-9 "> 
+							<table class="table table-user-information">
+								<tbody>
+									<tr>
+										<td>Tên:</td>
+										<td id="student-name">Name</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td id="student-email"><a href="mailto:info@support.com">email</a></td>
+									</tr>
+									<tr>
+										<td>Số điện thoại</td>
+										<td id="student-phone">Phone</td>
+									</tr>
+									<tr>
+										<td>Mô tả</td>
+										<td id="student-description">Description</td>
+									</tr>
+									<tr>
+										<td>Giá/h</td>
+										<td id="student-price_per_hour">Price</td>
+									</tr>
+									<tr>
+										<td>Trường học</td>
+										<td id="student-school">Job</td>
+									</tr>
+									<tr>
+										<td>Trình độ</td>
+										<td id="student-level">Level</td>
+									</tr>
+									<tr>
+										<td>Địa điểm</td>
+										<td id="student-location">Location</td>
+									</tr>
+									<tr>
+										<td>Môn học</td>
+										<td id="student-subjects">Môn học</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .panel-body -->
+			</div> <!-- .modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div> <!-- .modal-footer -->
+		</div> <!-- .modal-content -->
+	</div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+	function viewTeacher(id) {
+		$.ajax({
+			url: '/api/teachers/' + id,
+			type: 'GET',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				console.log(result);
+				$('#teacher-name').text(result.name);
+				$('#teacher-email').text(result.email);
+				$('#teacher-phone').text(result.phone);
+				$('#teacher-description').text(result.description);
+				$('#teacher-salary_per_hour').text(result.salary_per_hour);
+				$('#teacher-job').text(result.job);
+				$('#teacher-work_place').text(result.work_place);
+				$('#teacher-location').text(result.location);
+				$('#teacher-rating').text(result.rating);
+				$('#teacher-image').attr('src', result.image);
+				$('#teacher-email a').attr('href', 'mailto:' + result.email);
+				$('#teacher-subjects').text(result.subjects);
+			}
+		});
+	}
+	
+	function viewStudent(id) {
+		$.ajax({
+			url: '/api/students/' + id,
+			type: 'GET',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				console.log(result);
+				$('#student-name').text(result.name);
+				$('#student-email').text(result.email);
+				$('#student-phone').text(result.phone);
+				$('#student-description').text(result.description);
+				$('#student-price_per_hour').text(result.price_per_hour);
+				$('#student-school').text(result.school);
+				$('#student-location').text(result.location);
+				$('#student-level').text(result.level);
+				$('#student-subjects').text(result.subjects);
+				$('#student-image').attr('src', result.image);
+				$('#student-email a').attr('href', 'mailto:' + result.email);
+			}
+		});
+	}
+	
+	
+	function getTemplateTeacher(result) {
+		var template = '<tr>' +
+							'<td class="show-teacher-by-id" onclick="viewTeacher(' + result.id +')"><a href="#">' + result.id + '</a></td>' +
+							'<td>' + result.name + '</td>' +
+							'<td>' + result.location + '</td>' + 
+							'<td><a href="mailto:' + result.email + '">' + result.email + '</a></td>' +
+							'<td>' + result.phone + '</td>' + 
+							'<td>' + result.rating + '</td>' +
+						'</tr>';
+		return template;
+	}
+	
+	function getTemplateStudent(result) {
+		var template = '<tr>' +
+							'<td class="show-student-by-id" onclick="viewStudent(' + result.id +')"><a href="#">' + result.id + '</a></td>' +
+							'<td>' + result.name + '</td>' +
+							'<td>' + result.location + '</td>' + 
+							'<td><a href="mailto:' + result.email + '">' + result.email + '</a></td>' +
+							'<td>' + result.phone + '</td>' + 
+						'</tr>';
+		return template;
+	}
+	
+	function refreshTeacher() {
+		limit = $('#teacher-limit').val();
+		
+		data = {
+			'salary_per_hour': $('#teacher-salary_per_hour').val(),
+			'level_to_teach': $('#teacher-level_to_teach').val(),
+			'subjects': $('#teacher-subjects').val()
+		}
+		console.log(data);
+		$.ajax({
+			url: '/api/teachers/recommend?limit=' + limit,
+			type: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				console.log(result);
+				for (var i = 0; i < result.length; ++i)
+					$('.teacher-list tbody').append(getTemplateTeacher(result[i]));
+				
+				$('td.show-teacher-by-id').click(function() {
+					$('#show-teacher').show();
+				});
+			}
+		});
+	}
+	
+	function refreshStudent() {
+		limit = $('#student-limit').val();
+		
+		data = {
+			'price_per_hour': $('#student-price_per_hour').val(),
+			'level': $('#student-level').val(),
+			'subjects': $('#student-subjects').val()
+		}
+		console.log(data);
+		$.ajax({
+			url: '/api/students/recommend?limit=' + limit,
+			type: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				console.log(result);
+				for (var i = 0; i < result.length; ++i)
+					$('.student-list tbody').append(getTemplateStudent(result[i]));
+				
+				$('td.show-student-by-id').click(function() {
+					$('#show-student').show();
+				});
+			}
+		});
+	}
+	
+	$(document).ready(function() {
+		$('#show-teacher button').click(function() {
+			$('#show-teacher').hide();
+		});
+		$('#button-search-teacher').click(function() {
+			$('.teacher-list tbody').empty();
+			refreshTeacher();
+		});
+		$('#show-student button').click(function() {
+			$('#show-student').hide();
+		});
+		$('#button-search-student').click(function() {
+			$('.student-list tbody').empty();
+			refreshStudent();
+		});
+	});
+	
+</script>
+{% endblock %}

@@ -1,0 +1,127 @@
+<html>
+<header> 
+	<title>Private School</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/static/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/style.css">
+</header>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">Private Teacher</a>
+			</div> <!-- .navbar-header -->
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Nav header</li>
+							<li><a href="#">Separated link</a></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul> <!-- .dropdown-menu -->
+					</li> <!-- .dropdown -->
+				</ul> <!-- .nav .navbar-nav -->
+				{% if not current_user.is_authenticated %}
+					<form class="navbar-form navbar-right sign-in" action="/" method='post'>
+						<div class="form-group">
+							<input type="email" id="email" name="email" placeholder="Email" class="form-control">
+						</div> <!-- .form-group -->
+						<div class="form-group">
+							<input type="password" id="password" name="password" placeholder="Password" class="form-control">
+						</div> <!-- .form-group -->
+						<button type="submit" class="btn btn-danger">Sign in</button>
+					</form>
+				{% else %}
+					<ul class="navbar-right navbar-nav nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{{ current_user.name }}</strong> <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/profile">Profile</a></li>
+								<li><a href="/view">Các hồ sơ đã tạo</a></li>
+								<li><a href="/logout">Logout</a></li>
+							</ul> <!-- .dropdown-menu -->
+						</li> <!-- .dropdown -->
+					</ul> <!-- .navbar-right -->
+				{% endif %}
+				
+			</div><!--/.navbar-collapse -->
+      </div> <!-- .container -->
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action --> 
+	
+	
+	<div class="main">
+		{% with errorsVar = get_flashed_messages(category_filter=["errors"]) %}
+			{% for errors in errorsVar %}
+				{% if errors %}
+					{% for error in errors %}
+					<div class="alert alert-danger">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						{{ error }}
+					</div>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		{% endwith %}
+
+		{% with infoVar = get_flashed_messages(category_filter=["info"]) %}
+			{% for info in infoVar %}
+				{% if info %}
+					{% for msg in info %}
+					<div class="alert alert-info">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						{{ msg }}
+					</div>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		{% endwith %}
+		
+		{% block main %}
+		{% endblock %}
+	</div>
+	
+	<script src="/static/jquery-3.1.0.min.js"></script>
+	<script src="/static/bootstrap.min.js"></script>
+	<script>
+		function infoMessage(msg) {
+			infoHtml = '<div class="alert alert-info">' + 
+							'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + 
+							msg + 
+						'</div>';
+			$('.main').prepend(infoHtml);
+		}
+		function errorMessage(msg) {
+			errorHtml = '<div class="alert alert-danger">' + 
+							'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + 
+							msg + 
+						'</div>';
+			$('.main').prepend(errorHtml);
+		}
+		
+		function errorArrayMessage(errors) {
+			for (var field in errors) 
+				for (var i = 0; i < errors[field].length; ++i)
+					errorMessage(field + ': ' + errors[field][i]);
+		}
+	</script>
+	{% block javascript %}
+	{% endblock %}
+</body>
+</html>

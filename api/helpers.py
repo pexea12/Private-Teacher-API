@@ -1,6 +1,11 @@
 import math
 
 def distance(lon1, lat1, lon2, lat2):
+	lon1 = float(lon1)
+	lon2 = float(lon2)
+	lat1 = float(lat1)
+	lat2 = float(lat2)
+	
 	R = 6371e3
 	phi1 = math.radians(lat1)
 	phi2 = math.radians(lat2)

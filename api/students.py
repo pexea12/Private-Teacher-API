@@ -174,19 +174,22 @@ geolocator = GoogleV3(timeout=5)
 
 @app.route('/api/students/recommend', methods=['POST'])
 def recommend_students():
-	'price_per_hour', 'level','location', 'subjects'
-	students = Student.query.all()
+	limit = request.args['limit']
 	
-	params = selectParams()
-	location = geolocator.geocode(params['location'])
+	subjects = request.form['subjects']
+	level = request.form['level']
+	price_per_hour = request.form['price_per_hour']
 	
-	location_lon = location.longitude
-	location_lat = location.latitude
+	students = db.session.query(Student) \
+			  .filter(Student.subjects == subjects) \
+			  .filter(Student.level == level) \
+			  .filter(Student.price_per_hour > price_per_hour) \
+			  .limit(limit).all()
+			  
+	print(students)
 	
-	
-	for student in students:
-		student.distance = distance(student.location_lon, student.location_lat, location_lon, location_lat)
-		student.price = params['price_per_hour'] - student.price_per_hour
+	results = [ student.__dict__ for student in students ]
+	for result in results:
+		del(result['_sa_instance_state'])
 		
-	
-	return str(len(students))
+	return jsonify(results)

@@ -1,0 +1,297 @@
+{% extends "_layout.html" %}
+
+{% block main %}
+<div class="container">
+	<h2>Gia sư đã được tạo</h2>
+	<h3><button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#add-teacher">Thêm gia sư</button></h3>
+	
+	<div class="container bootstrap snippet">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="main-box no-header clearfix">
+					<div class="main-box-body clearfix">
+						<div class="table-responsive">
+							<table class="table teacher-list">
+								<thead>
+									<tr>
+										<th><span>ID</span>
+										<th><span>Tên</span></th>
+										<th><span>Địa điểm</span></th>
+										<th><span>Email</span></th>
+										<th><span>Số điện thoại</span>
+										<th><span>Rating</span></th>
+										<th class="text-center"><span>Sửa</span></th>
+										<th class="text-center"><span>Xóa</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+						</div> <!-- .table-responsive -->
+					</div> <!-- .main-box-body -->
+				</div> <!-- .main-box -->
+			</div>
+		</div> <!-- .row -->
+	</div> <!-- .container bootstrap snippet -->
+</div> <!-- .container -->
+
+<!-- Modal -->
+<div id="add-teacher" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Thêm gia sư</h4>
+			</div> <!-- .modal-header -->
+			<div class="modal-body">
+				<form id="add_teacher_form">
+					<div class="form-group">
+						<label for="name">Tên:</label>       
+						<input type="text" name="name" id="name" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="email">Email:</label>       
+						<input type="email" name="email" id="email" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="name">Điện thoại:</label>       
+						<input type="text" name="phone" id="phone" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="name">Mô tả:</label>       
+						<textarea name="description" id="description" class="form-control"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="salary_per_hour">Mức lương (/h):</label>       
+						<input type="text" name="salary_per_hour" id="salary_per_hour" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="job">Nghề nghiệp:</label>       
+						<input type="text" name="job" id="job" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="image">Ảnh:</label>       
+						<input type="text" name="image" id="image" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="work_place">Nơi làm việc:</label>       
+						<input type="text" name="work_place" id="work_place" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="level_to_teach">Trình độ của học sinh:</label>       
+						<input type="text" name="level_to_teach" id="level_to_teach" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="location">Địa điểm:</label>       
+						<input type="text" name="location" id="location" class="form-control">
+					</div>
+					
+					<div class="form-group">
+						<label for="subjects">Môn học:</label>       
+						<input type="text" name="subjects" id="subjects" class="form-control">
+					</div>
+				</form>
+			</div> <!-- .modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="button-add">Thêm</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div> <!-- .modal-footer -->
+		</div> <!-- .modal-content -->
+	</div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+<div id="show-teacher" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Xem gia sư</h4>
+			</div> <!-- .modal-header -->
+			<div class="modal-body" style="overflow-y: scroll; height: 400px;">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3" align="center">
+							<img alt="User Picture" src="http://i.imgur.com/Km2enGq.png" class="img-circle img-responsive" id="teacher-image">
+						</div> 
+						<div class=" col-md-9 col-lg-9 "> 
+							<table class="table table-user-information">
+								<tbody>
+									<tr>
+										<td>Tên:</td>
+										<td id="teacher-name">Name</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td id="teacher-email"><a href="mailto:info@support.com">email</a></td>
+									</tr>
+									<tr>
+										<td>Số điện thoại</td>
+										<td id="teacher-phone">Phone</td>
+									</tr>
+									<tr>
+										<td>Mô tả</td>
+										<td id="teacher-description">Description</td>
+									</tr>
+									<tr>
+										<td>Mức lương/h</td>
+										<td id="teacher-salary_per_hour">Salary</td>
+									</tr>
+									<tr>
+										<td>Nghề nghiệp</td>
+										<td id="teacher-job">Job</td>
+									</tr>
+									<tr>
+										<td>Trình độ học sinh</td>
+										<td id="teacher-level_to_teach">Level</td>
+									</tr>
+									<tr>
+										<td>Địa điểm</td>
+										<td id="teacher-location">Location</td>
+									</tr>
+									<tr>
+										<td>Môn học</td>
+										<td id="teacher-subjects">SUbjects</td>
+									</tr>
+									<tr>
+										<td>Rating</td>
+										<td id="teacher-rating">Rating</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .panel-body -->
+			</div> <!-- .modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div> <!-- .modal-footer -->
+		</div> <!-- .modal-content -->
+	</div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+	function getTemplate(result) {
+		var template = '<tr>' +
+							'<td class="show-teacher-by-id" onclick="viewTeacher(' + result.id +')"><a href="#">' + result.id + '</a></td>' +
+							'<td>' + result.name + '</td>' +
+							'<td>' + result.location + '</td>' + 
+							'<td><a href="mailto:' + result.email + '">' + result.email + '</a></td>' +
+							'<td>' + result.phone + '</td>' + 
+							'<td>' + result.rating + '</td>' + 
+							'<td class="text-center">' + 
+								'<a href="/profile/teachers/' + result.id + '/edit"><span class="label label-warning">Edit</span></a>' + 
+							'</td>' +
+							'<td class="text-center">' + 
+								'<span class="label label-danger" onclick="deleteTeacher(' + result.id + ')">Delete</span>' + 
+							'</td>' + 
+						'</tr>';
+		return template;
+	}
+	
+	function refresh() {
+		$.ajax({
+			url: '/api/teachers/list?user_id={{ current_user.id }}',
+			type: 'GET',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				for (var i = 0; i < result.length; ++i)
+					$('.teacher-list tbody').append(getTemplate(result[i]));
+				
+				$('td.show-teacher-by-id').click(function() {
+					$('#show-teacher').show();
+				});
+			}
+		});
+	}
+	
+	function viewTeacher(id) {
+		$.ajax({
+			url: '/api/teachers/' + id,
+			type: 'GET',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				console.log(result);
+				$('#teacher-name').text(result.name);
+				$('#teacher-email').text(result.email);
+				$('#teacher-phone').text(result.phone);
+				$('#teacher-description').text(result.description);
+				$('#teacher-salary_per_hour').text(result.salary_per_hour);
+				$('#teacher-job').text(result.job);
+				$('#teacher-work_place').text(result.work_place);
+				$('#teacher-location').text(result.location);
+				$('#teacher-rating').text(result.rating);
+				$('#teacher-image').attr('src', result.image);
+				$('#teacher-email a').attr('href', 'mailto:' + result.email);
+				$('#teacher-subjects').text(result.subjects);
+			}
+		});
+	}
+	
+	$(document).ready(function() {
+		refresh();
+		$('#show-teacher button').click(function() {
+			$('#show-teacher').hide();
+		});
+	});
+	
+	$('#button-add').click(function() {
+		data = {
+			'name': $('#name').val(),
+			'priviledge': $('#priviledge').val(),
+			'email': $('#email').val(),
+			'phone': $('#phone').val(),
+			'image': $('#image').val(),
+			'description': $('#description').val(),
+			'salary_per_hour': $('#salary_per_hour').val(),
+			'job': $('#job').val(),
+			'work_place': $('#work_place').val(),
+			'level_to_teach': $('#level_to_teach').val(),
+			'location': $('#location').val(),
+			'subjects': $('#subjects').val()
+		};
+		
+		$.ajax({
+			url: '/api/teachers/add',
+			type: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				if (result.msg == "Successfully added to database") {
+					$('tbody').empty();
+					refresh();
+					return;
+				} else {
+					if ('errors' in result)
+						errorArrayMessage(result.errors);	
+					errorMessage(result.msg);
+				}
+			} 
+		});
+	});
+	
+	function deleteTeacher(id) {
+		$.ajax({
+			url: '/api/teachers/delete/' + id,
+			type: 'DELETE',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				if (result.msg == "Successfully deleted") {
+					$('tbody').empty();
+					refresh();
+					return;
+				} else {
+					if ('errors' in result)
+						errorArrayMessage(result.errors);	
+					errorMessage(result.msg);
+				}
+			} 
+		});
+	}
+</script>
+{% endblock %}

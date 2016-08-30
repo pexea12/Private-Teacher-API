@@ -1,0 +1,104 @@
+{% extends "_layout.html" %}
+
+{% block main %}
+
+<div id="add_user_div" class="container">
+	<form id="add_user_form" method="post" action="/register">
+
+	{% with fields = get_flashed_messages(category_filter=["fields"]) %}
+
+		{% if fields %}
+			{% for field in fields %}
+				<div class="form-group col-md-6">
+					<label for="name">Name: </label>
+					<input type="text" name="name" id="name" class="form-control" value="{{ field['name'] }}">
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="email">Email: </label>
+					<input type="email" name="email" id="email" class="form-control" value="{{ field['email'] }}">
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="password">Password: </label>
+					<input type="password" name="password" id="password" class="form-control" value="{{ field['password'] }}">
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="confirm">Confirm password: </label>
+					<input type="password" name="confirm" id="confirm" class="form-control">
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="name">Phone: </label>
+					<input type="text" name="phone" id="phone" class="form-control" value="{{ field['phone'] }}">
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="image">Image link: </label>
+					<input type="text" name="image" id="image" class="form-control" value="{{ field['image'] }}">
+				</div> <!-- .form-group -->
+				
+				{% if current_user.is_authenticated %}
+					<div class="form-group">
+						<label for="priviledge">Priviledge: </label>
+						<select class="form-control" name="priviledge" id="priviledge">
+							<option value="Member"
+								{% if field['priviledge'] == 'Member' %}
+									selected
+								{% endif %}
+							>Member</option>
+							<option value="Admin"
+								{% if field['priviledge'] == 'Admin' %}
+									selected
+								{% endif %}
+							>Admin</option>
+						</select>
+					</div> <!-- .form-group -->
+				{% endif %} 
+					
+				<div class="form-group">
+					<button type="submit" class="btn btn-success">Register</button>
+				</div> <!-- .form-group -->
+				
+			{% endfor %}
+		{% else %}
+			<div class="form-group col-md-6">
+				<label for="name">Name: </label>
+				<input type="text" name="name" id="name" class="form-control">
+			</div> <!-- .form-group -->
+			<div class="form-group col-md-6">
+				<label for="email">Email: </label>
+				<input type="email" name="email" id="email" class="form-control" >
+			</div> <!-- .form-group -->
+			<div class="form-group col-md-6">
+				<label for="password">Password: </label>
+				<input type="password" name="password" id="password" class="form-control" >
+			</div> <!-- .form-group -->
+			<div class="form-group col-md-6">
+				<label for="confirm">Confirm password: </label>
+				<input type="password" name="confirm" id="confirm" class="form-control">
+			</div> <!-- .form-group -->
+			<div class="form-group col-md-6">
+				<label for="name">Phone: </label>
+				<input type="text" name="phone" id="phone" class="form-control">
+			</div> <!-- .form-group -->
+			<div class="form-group col-md-6">
+				<label for="image">Image link: </label>
+				<input type="text" name="image" id="image" class="form-control" >
+			</div> <!-- .form-group -->
+			
+			{% if current_user.is_authenticated %}
+				<div class="form-group">
+					<label for="priviledge">Priviledge: </label>
+					<select class="form-control" name="priviledge" id="priviledge">
+						<option value="Member">Member</option>
+						<option value="Admin">Admin</option>
+					</select>
+				</div> <!-- .form-group -->
+			{% endif %} 
+				
+			<div class="form-group">
+				<button type="submit" class="btn btn-success">Register</button>
+			</div> <!-- .form-group -->
+		{% endif %}
+	</form>
+</div> <!-- #add_user_div -->
+{% endwith %}
+
+{% endblock %}

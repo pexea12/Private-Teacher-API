@@ -4,38 +4,41 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional
 
 class UserForm(Form):
 	name = StringField('name', validators=[
-		Length(max=80, message='max name length is 80 characters'),
-		DataRequired(message='name is required')
+		Length(max=80),
+		DataRequired()
 	])
 	email = StringField('email', [
-		DataRequired(message='email is required'), 
-		Email(message='email must be valid')
+		DataRequired(), 
+		Email()
 	])
 	phone = StringField('phone', [
-		Length(max=30, message='max phone length is 30 characters'),
-		DataRequired(message='phone is required')
+		Length(max=30),
+		DataRequired()
 	])
 	password = PasswordField('password', [
-		DataRequired(message='password is required'),
-		EqualTo('confirm', message='passwords must match')
+		DataRequired(),
+		EqualTo('confirm', 'Password must match')
 	])
 	confirm = PasswordField('confirm')
 	image = StringField('image', [ Length(max=120) ])
-	priviledge = StringField('priviledge', [
-		DataRequired(message='priviledge is required')
-	])
+	priviledge = StringField('priviledge')
 	
 class UserUpdateForm(Form):
 	name = StringField('name', validators=[
-		Length(max=80, message='max name length is 80 characters'),
+		Length(max=80),
 		Optional()
 	])
+	password = PasswordField('password', [
+		DataRequired(),
+		EqualTo('confirm', 'Password must match')
+	])
+	confirm = PasswordField('confirm')
 	email = StringField('email', [
-		Email(message='email must be valid'),
+		Email(),
 		Optional()
 	])
 	phone = StringField('phone', [
-		Length(max=30, message='max phone length is 30 characters'),
+		Length(max=30),
 		Optional()
 	])
 	image = StringField('image', [ 
@@ -65,9 +68,6 @@ class StudentForm(Form):
 		Length(max=120)
 	])
 	location = TextField('location')
-	user_id = IntegerField('user_id', [
-		DataRequired()
-	])
 	subjects = TextField('subjects')
 	
 class StudentUpdateForm(Form):
@@ -91,9 +91,6 @@ class StudentUpdateForm(Form):
 		Length(max=120)
 	])
 	location = TextField('location')
-	user_id = IntegerField('user_id', [
-		Optional()
-	])
 	subjects = TextField('subjects')
 
 class TeacherForm(Form):
@@ -118,9 +115,6 @@ class TeacherForm(Form):
 		Length(max=120)
 	])
 	location = TextField('location')
-	user_id = IntegerField('user_id', [
-		DataRequired()
-	])
 	subjects = TextField('subjects')
 	
 class TeacherUpdateForm(Form):
@@ -146,9 +140,6 @@ class TeacherUpdateForm(Form):
 		Length(max=120)
 	])
 	location = TextField('location')
-	user_id = IntegerField('user_id', [
-		Optional()
-	])
 	subjects = TextField('subjects')
 	
 class LoginForm(Form):

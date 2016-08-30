@@ -2,7 +2,6 @@ from api import app, db, login_manager, User
 from flask import jsonify, request
 import bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
-from flask_login import AnonymousUserMixin as Anonymous
 
 # Helper function
 def selectParams():
@@ -133,11 +132,11 @@ import bcrypt, urllib
 # /api/users/add/
 @app.route('/api/users/add', methods=['GET', 'POST'])
 def post_users():
+	if current_user.is_authenticated and not current_user.is_admin():
+		return jsonify({ "msg": "You are not allowed to add user" })
+	
 	if request.method == 'GET':
 		return jsonify({ 'msg': 'This URL is only for POST request' })
-	
-	if not isinstance(current_user, Anonymous) and not current_user.is_admin():
-		return jsonify({ "msg": "You are not allowed to add user" })
 		
 	# Process with POST data sent from HTML form
 	form = UserForm(request.form)
@@ -159,7 +158,7 @@ def post_users():
 			return jsonify({ "msg": "can't add to database" })
 		
 		return jsonify({
-			"msg": "Successfully added to database",
+			"msg": "successfully added to database",
 			"user": "/api/users?email=" + urllib.parse.quote_plus(email),
 			"all_users": "/api/users?limit=10"
 		})
@@ -192,22 +191,23 @@ def put_users(user_id):
 		for value in form.data:
 			if form.data[value] != '':
 				if value == 'password':
-					password = bcrypt.hashpw(form.data['password'], bcrypt.gensalt())
-					setattr(user, value, password)
+					password = bcrypt.hashpw(form.data['password'].encode(), bcrypt.gensalt())
+					setattr(updateUser, value, password)
 				else: 
-					setattr(user, value, form.data[value])
+					setattr(updateUser, value, form.data[value])
     
 		db.session.commit()
 	
-		result = user.__dict__
+		print(updateUser.name)
+		result = updateUser.__dict__
 		
-		del user['_sa_instance_state']
-		del user['password']
+		del result['_sa_instance_state']
+		del result['password']
 		
 		return jsonify({ 
 			"msg": "updated successfully", 
 			"result": result,
-			"url": '/api/users/' + str(user.id)
+			"url": '/api/users/' + str(updateUser.id)
 		})
 	
 	results = { "msg": "can't pass form validation" }

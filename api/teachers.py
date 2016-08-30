@@ -137,3 +137,29 @@ def delete_teacher_id(teacher_id):
 		"msg": "Successfully deleted",
 		"all_teachers": "/api/teachers/list"
 	})
+	
+from geopy.geocoders import GoogleV3
+from .helpers import distance
+
+geolocator = GoogleV3(timeout=5)
+
+@app.route('/api/teachers/recommend', methods=['POST'])
+def recommend_teachers():
+	'salary_per_hour', 'level_to_teach','location', 'subjects'
+	limit = request.args['limit']
+	
+	subjects = request.form['subjects']
+	level_to_teach = request.form['level_to_teach']
+	salary_per_hour = request.form['salary_per_hour']
+	
+	teachers = db.session.query(Teacher) \
+			  .filter(Teacher.subjects == subjects) \
+			  .filter(Teacher.level_to_teach == level_to_teach) \
+			  .filter(Teacher.salary_per_hour < salary_per_hour) \
+			  .limit(limit).all()
+	
+	results = [ teacher.__dict__ for teacher in teachers ]
+	for result in results:
+		del(result['_sa_instance_state'])
+		
+	return jsonify(results)

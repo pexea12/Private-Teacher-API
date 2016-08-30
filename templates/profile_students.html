@@ -1,0 +1,286 @@
+{% extends "_layout.html" %}
+
+{% block main %}
+<div class="container">
+	<h2>Học sinh đã được tạo</h2>
+	<h3><button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#add-student">Thêm học sinh</button></h3>
+	
+	<div class="container bootstrap snippet">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="main-box no-header clearfix">
+					<div class="main-box-body clearfix">
+						<div class="table-responsive">
+							<table class="table student-list">
+								<thead>
+									<tr>
+										<th><span>ID</span>
+										<th><span>Tên</span></th>
+										<th><span>Địa điểm</span></th>
+										<th><span>Email</span></th>
+										<th><span>Số điện thoại</span>
+										<th class="text-center"><span>Sửa</span></th>
+										<th class="text-center"><span>Xóa</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+						</div> <!-- .table-responsive -->
+					</div> <!-- .main-box-body -->
+				</div> <!-- .main-box -->
+			</div>
+		</div> <!-- .row -->
+	</div> <!-- .container bootstrap snippet -->
+</div> <!-- .container -->
+
+<!-- Modal -->
+<div id="add-student" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Thêm học sinh</h4>
+			</div> <!-- .modal-header -->
+			<div class="modal-body">
+				<form id="add_student_form">
+					<div class="form-group">
+						<label for="name">Tên:</label>       
+						<input type="text" name="name" id="name" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="email">Email:</label>       
+						<input type="email" name="email" id="email" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="name">Điện thoại:</label>       
+						<input type="text" name="phone" id="phone" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="name">Mô tả:</label>       
+						<textarea name="description" id="description" class="form-control"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="price_per_hour">Giá có thể trả (/h):</label>       
+						<input type="text" name="price_per_hour" id="price_per_hour" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="school">Trường:</label>       
+						<input type="text" name="school" id="school" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="image">Ảnh:</label>       
+						<input type="text" name="image" id="image" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="level">Trình độ:</label>       
+						<input type="text" name="level" id="level_to_teach" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="location">Địa điểm:</label>       
+						<input type="text" name="location" id="location" class="form-control">
+					</div>
+					
+					<div class="form-group">
+						<label for="subjects">Môn học:</label>       
+						<input type="text" name="subjects" id="subjects" class="form-control">
+					</div>
+				</form>
+			</div> <!-- .modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="button-add">Thêm</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div> <!-- .modal-footer -->
+		</div> <!-- .modal-content -->
+	</div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+<div id="show-student" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Xem học sinh</h4>
+			</div> <!-- .modal-header -->
+			<div class="modal-body" style="overflow-y: scroll; height: 400px;">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3" align="center">
+							<img alt="User Picture" src="http://i.imgur.com/Km2enGq.png" class="img-circle img-responsive" id="student-image">
+						</div> 
+						<div class=" col-md-9 col-lg-9 "> 
+							<table class="table table-user-information">
+								<tbody>
+									<tr>
+										<td>Tên:</td>
+										<td id="student-name">Name</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td id="student-email"><a href="mailto:info@support.com">email</a></td>
+									</tr>
+									<tr>
+										<td>Số điện thoại</td>
+										<td id="student-phone">Phone</td>
+									</tr>
+									<tr>
+										<td>Mô tả</td>
+										<td id="student-description">Description</td>
+									</tr>
+									<tr>
+										<td>Giá/h</td>
+										<td id="student-price_per_hour">Price</td>
+									</tr>
+									<tr>
+										<td>Trường học</td>
+										<td id="student-school">Job</td>
+									</tr>
+									<tr>
+										<td>Trình độ</td>
+										<td id="student-level">Level</td>
+									</tr>
+									<tr>
+										<td>Địa điểm</td>
+										<td id="student-location">Location</td>
+									</tr>
+									<tr>
+										<td>Môn học</td>
+										<td id="student-subjects">Môn học</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .panel-body -->
+			</div> <!-- .modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div> <!-- .modal-footer -->
+		</div> <!-- .modal-content -->
+	</div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+	function getTemplate(result) {
+		var template = '<tr>' +
+							'<td class="show-student-by-id" onclick="viewStudent(' + result.id +')"><a href="#">' + result.id + '</a></td>' +
+							'<td>' + result.name + '</td>' +
+							'<td>' + result.location + '</td>' + 
+							'<td><a href="mailto:' + result.email + '">' + result.email + '</a></td>' +
+							'<td>' + result.phone + '</td>' + 
+							'<td class="text-center">' + 
+								'<a href="/profile/students/' + result.id + '/edit"><span class="label label-warning">Edit</span></a>' + 
+							'</td>' +
+							'<td class="text-center">' + 
+								'<span class="label label-danger" onclick="deleteStudent(' + result.id + ')">Delete</span>' + 
+							'</td>' + 
+						'</tr>';
+		return template;
+	}
+	
+	function refresh() {
+		$.ajax({
+			url: '/api/students/list?user_id={{ current_user.id }}',
+			type: 'GET',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				for (var i = 0; i < result.length; ++i)
+					$('.student-list tbody').append(getTemplate(result[i]));
+				
+				$('td.show-student-by-id').click(function() {
+					$('#show-student').show();
+				});
+			}
+		});
+	}
+	
+	function viewStudent(id) {
+		$.ajax({
+			url: '/api/students/' + id,
+			type: 'GET',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				console.log(result);
+				$('#student-name').text(result.name);
+				$('#student-email').text(result.email);
+				$('#student-phone').text(result.phone);
+				$('#student-description').text(result.description);
+				$('#student-price_per_hour').text(result.price_per_hour);
+				$('#student-school').text(result.school);
+				$('#student-location').text(result.location);
+				$('#student-level').text(result.level);
+				$('#student-subjects').text(result.subjects);
+				$('#student-image').attr('src', result.image);
+				$('#student-email a').attr('href', 'mailto:' + result.email);
+			}
+		});
+	}
+	
+	$(document).ready(function() {
+		refresh();
+		$('#show-student button').click(function() {
+			$('#show-student').hide();
+		});
+	});
+	
+	$('#button-add').click(function() {
+		data = {
+			'name': $('#name').val(),
+			'priviledge': $('#priviledge').val(),
+			'email': $('#email').val(),
+			'phone': $('#phone').val(),
+			'image': $('#image').val(),
+			'description': $('#description').val(),
+			'salary_per_hour': $('#salary_per_hour').val(),
+			'job': $('#job').val(),
+			'work_place': $('#work_place').val(),
+			'level_to_teach': $('#level_to_teach').val(),
+			'location': $('#location').val(),
+			'subjects': $('#subjects').val()
+		};
+		
+		$.ajax({
+			url: '/api/students/add',
+			type: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				if (result.msg == "Successfully added to database") {
+					$('tbody').empty();
+					refresh();
+					return;
+				} else {
+					if ('errors' in result)
+						errorArrayMessage(result.errors);	
+					errorMessage(result.msg);
+				}
+			} 
+		});
+	});
+	
+	function deleteStudent(id) {
+		$.ajax({
+			url: '/api/students/delete/' + id,
+			type: 'DELETE',
+			dataType: 'json',
+			success: function(result, status, xhr) {
+				if (result.msg == "Successfully deleted") {
+					$('tbody').empty();
+					refresh();
+					return;
+				} else {
+					if ('errors' in result)
+						errorArrayMessage(result.errors);	
+					errorMessage(result.msg);
+				}
+			} 
+		});
+	}
+</script>
+{% endblock %}

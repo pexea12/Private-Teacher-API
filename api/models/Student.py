@@ -1,5 +1,6 @@
 from . import db
 from geopy.geocoders import GoogleV3
+from flask_login import current_user
 
 geolocator = GoogleV3(timeout=5)
 
@@ -30,7 +31,7 @@ class Student(db.Model):
 		self.price_per_hour = price_per_hour
 		self.school = school
 		self.level = level
-		self.user_id = user_id
+		self.user_id = current_user.id
 		self.image = image if image != '' else '/static/default.jpg'
 		
 		location = geolocator.geocode(location)

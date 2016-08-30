@@ -1,0 +1,105 @@
+{% extends "_layout.html" %}
+
+{% block main %}
+
+<div id="add_user_div" class="container">
+	<form id="add_user_form" method="post" action="/register">
+	
+				<div class="form-group col-md-6">
+					<label for="name">Name: </label>
+					<input type="text" name="name" id="name" class="form-control" >
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="email">Email: </label>
+					<input type="email" name="email" id="email" class="form-control" >
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="password">Password: </label>
+					<input type="password" name="password" id="password" class="form-control" >
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="confirm">Confirm password: </label>
+					<input type="password" name="confirm" id="confirm" class="form-control">
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="name">Phone: </label>
+					<input type="text" name="phone" id="phone" class="form-control" >
+				</div> <!-- .form-group -->
+				<div class="form-group col-md-6">
+					<label for="image">Image link: </label>
+					<input type="text" name="image" id="image" class="form-control" >
+				</div> <!-- .form-group -->
+				
+				{% if current_user.is_authenticated and current_user.is_admin() %}
+					<div class="form-group col-md-6">
+						<label for="priviledge">Priviledge: </label>
+						<select class="form-control" name="priviledge" id="priviledge">
+							<option value="Member">Member</option>
+							<option value="Admin">Admin</option>
+						</select>
+					</div> <!-- .form-group -->
+				{% endif %} 
+					
+				<div class="form-group">
+					<button type="button" class="btn btn-success" id="button-update">Update</button>
+				</div> <!-- .form-group -->
+				
+	</form>
+</div> <!-- #add_user_div -->
+{% endblock %}
+
+{% block javascript %}
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: '/api/users/{{ current_user.id }}',
+				type: 'GET',
+				dataType: 'json',
+				success: function(result, status, xhr) {
+					$('#name').attr('value', result.name);
+					$('#priviledge').val(result.priviledge);
+					$('#email').attr('value', result.email);
+					$('#phone').attr('value', result.phone);
+					$('#image').attr('value', result.image);
+				}
+			});
+		});
+		
+		$('#button-update').click(function() {
+			data = {
+				'name': $('#name').val(),
+				'priviledge': $('#priviledge').val(),
+				'email': $('#email').val(),
+				'phone': $('#phone').val(),
+				'image': $('#image').val(),
+				'password': $('#password').val(),
+				'confirm': $('#confirm').val()
+			}
+			
+			$.ajax({
+				url: '/api/users/update/{{ current_user.id }}',
+				type: 'PUT',
+				data: data,
+				dataType: 'json',
+				success: function(result, status, xhr) {
+					if (result.msg == 'updated successfully') {
+						infoMessage(result.msg);
+						newInfo = result.result;
+						$('#name').attr('value', newInfo.name);
+						$('#priviledge').val(newInfo.priviledge);
+						$('#email').attr('value', newInfo.email);
+						$('#phone').attr('value', newInfo.phone);
+						$('#image').attr('value', newInfo.image);
+						$('#password').val('');
+						$('#confirm').val('');
+					} else {
+						if ('errors' in result)
+							errorArrayMessage(result.errors);
+							
+						errorMessage(result.msg);
+					}
+				} 
+			});
+		});
+	</script>
+{% endblock %}

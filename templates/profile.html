@@ -1,0 +1,73 @@
+{% extends "_layout.html" %}
+
+{% block main %}
+	<div class="container">
+      <div class="row">
+		<div class="col-md-5 pull-right col-md-offset-3 ">
+           <a href="/profile/edit"><strong>Edit Profile</strong></a>
+		</div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3" >
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Name</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3" align="center">
+							<img alt="User Picture" src="http://i.imgur.com/Km2enGq.png" class="img-circle img-responsive" id="profile-image">
+						</div> 
+						<div class=" col-md-9 col-lg-9 "> 
+							<table class="table table-user-information">
+								<tbody>
+									<tr>
+										<td>Tên:</td>
+										<td id="profile-name">Name</td>
+									</tr>
+									<tr>
+										<td>Quyền: </td>
+										<td id="profile-priviledge">Priviledge</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td id="profile-email"><a href="mailto:info@support.com">email</a></td>
+									</tr>
+									<tr>
+										<td>Số điện thoại</td>
+										<td id="profile-phone">Phone</td>
+									</tr>
+								</tbody>
+							</table>
+					  
+							<a href="/profile/teachers" class="btn btn-primary">Xem gia sư đã tạo</a>
+							<a href="/profile/students" class="btn btn-primary">Xem học sinh đã tạo</a>
+						</div>
+					</div> <!-- .row -->
+				</div> <!-- .panel-body -->
+                 
+            
+			</div> <!-- .panel .panel-info -->
+        </div>
+      </div> <!-- .row -->
+    </div> <!-- .container -->
+{% endblock %}
+
+{% block javascript %}
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: '/api/users/{{ current_user.id }}',
+				type: 'GET',
+				dataType: 'json',
+				success: function(result, status, xhr) {
+					$('#profile-name').text(result.name);
+					$('#profile-priviledge').text(result.priviledge);
+					$('#profile-email a').text(result.email);
+					$('#profile-email a').attr('href', 'mailto:' + result.email);
+					$('#profile-phone').text(result.phone);
+					$('#profile-image').attr('src', result.image);
+					$('.panel-title').text(result.name);
+				}
+			});
+		});
+	</script>
+{% endblock %}

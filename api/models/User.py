@@ -12,12 +12,12 @@ class User(db.Model):
 	image = db.Column(db.String(120))
 	priviledge = db.Column(db.String(10), nullable=False)
 	
-	def __init__(self, name, email, password, phone, priviledge, image=''):
+	def __init__(self, name, email, password, phone, priviledge='', image=''):
 		self.name = name
 		self.email = email
 		self.password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 		self.phone = phone
-		self.priviledge = priviledge
+		self.priviledge = priviledge if priviledge != '' else 'Member'
 		self.image = image if image != '' else '/static/default.jpg'
 		
 	def __repr__(self):
